@@ -71,4 +71,8 @@ group :test do
 
 end
 
+# Devise for authentication
 gem "devise"
+
+# Faker for dummy data
+gem 'faker', '~> 3.2'

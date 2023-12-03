@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_224537) do
     t.date "birthday"
     t.string "address", limit: 250
     t.string "postal_code", limit: 7
+    t.integer "provinces_id", null: false
     t.boolean "is_admin"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -69,10 +70,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_224537) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["provinces_id"], name: "index_users_on_provinces_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "order_products", "orders", column: "orders_id"
   add_foreign_key "order_products", "products", column: "products_id"
+  add_foreign_key "users", "provinces", column: "provinces_id"
 end

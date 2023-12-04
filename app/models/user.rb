@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  belongs_to :province
+  has_many :orders
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -18,14 +21,18 @@ class User < ApplicationRecord
       where(conditions.to_h).first
     end
   end
-    # only allow letter, number, underscore and punctuation.
-    validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
-    validate :validate_username
+  # only allow letter, number, underscore and punctuation.
+  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
-def validate_username
-  if User.where(email: username).exists?
-    errors.add(:username, :invalid)
+  validate :validate_username
+
+  attr_accessor :province
+  validates :province, presence: true, on: :create
+
+  def validate_username
+    if User.where(email: username).exists?
+      errors.add(:username, :invalid)
+    end
   end
-end
 end

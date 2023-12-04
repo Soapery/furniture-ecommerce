@@ -7,8 +7,8 @@ class CreateOrderProducts < ActiveRecord::Migration[7.0]
       t.decimal :pst
       t.decimal :hst
       t.decimal :total_cost
-      t.references :orders, null: false, foreign_key: true
-      t.references :products, null: false, foreign_key: true
+      t.references :order, null: false, foreign_key: true
+      t.references :product, null: false, foreign_key: true
 
       t.timestamps
     end

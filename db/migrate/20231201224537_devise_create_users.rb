@@ -3,7 +3,7 @@
 class DeviseCreateUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :users do |t|
-
+      add_reference :users, :province, foreign_key: true
 
       #ProjectERD
       t.string :full_name, limit: 50
@@ -11,9 +11,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       t.date :birthday
       t.string :address, limit: 250
       t.string :postal_code, limit: 7
-     # t.references :provinces, null: false, foreign_key: true
+      t.references :province, null: false, foreign_key: true
       t.boolean :is_admin
-
 
       ## Database authenticatable
       t.string :email,              null: false, default: ""
@@ -43,7 +42,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
-
 
       t.timestamps null: false
     end

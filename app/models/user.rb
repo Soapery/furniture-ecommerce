@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  belongs_to :province
+  belongs_to :province, optional: true
   has_many :orders
 
   # Include default devise modules. Others available are:
@@ -28,7 +28,7 @@ class User < ApplicationRecord
   validate :validate_username
 
   attr_accessor :province
-  validates :province, presence: true, on: :create
+  validates :province, presence: false, on: :create
 
   def validate_username
     if User.where(email: username).exists?

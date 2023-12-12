@@ -3,7 +3,6 @@
 class DeviseCreateUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :users do |t|
-      add_reference :users, :province, foreign_key: true
 
       #ProjectERD
       t.string :full_name, limit: 50
@@ -43,6 +42,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
+      t.integer :role, default: 0
       t.timestamps null: false
     end
 

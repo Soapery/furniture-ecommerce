@@ -1,5 +1,17 @@
 <h1>Home#index</h1>
 <p>Find me in app/views/home/index.html.erb</p>
+
+<% if current_user %>
+  <p>Hello <%= current_user.username %> </p>
+  <p>You are a [<%= current_user.role %>]</p>
+  <p>
+    You have succefully authenticated
+    You are now logged in
+      <%= button_to "Log out", destroy_user_session_path, method: 'delete' %>
+
+  </p>
+<% else %>
  <%= link_to 'Sign Up', new_user_registration_path %>
+ <br/>
   <%= link_to 'Log In', new_user_session_path %>
-  <%= button_to "Log out", destroy_user_session_path, method: 'delete' %>
+  <% end %>

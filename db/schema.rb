@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_01_224537) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_12_225426) do
   create_table "order_products", force: :cascade do |t|
     t.integer "amount"
     t.decimal "base_cost"
@@ -32,6 +32,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_224537) do
     t.string "order_status", limit: 50
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_patterns", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.text "pattern_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_patterns_on_product_id"
+  end
+
+  create_table "product_variations", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.text "variation_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_variations_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -67,7 +83,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_224537) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "role", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -78,5 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_224537) do
 
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
+  add_foreign_key "product_patterns", "products"
+  add_foreign_key "product_variations", "products"
   add_foreign_key "users", "provinces"
 end

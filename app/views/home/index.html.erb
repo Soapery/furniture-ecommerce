@@ -20,10 +20,7 @@
           <div class="mt-4 flex justify-between">
             <div>
               <h3 class="text-sm text-gray-700">
-                <a href="#">
-                  <span aria-hidden="true" class="absolute inset-0"></span>
-                  <%= product.name.titleize %>
-                </a>
+                <%= link_to product.name.titleize, product_path(product), class: "absolute inset-0 md:hover:text-blue-700" %>
               </h3>
               <p class="mt-1 text-sm text-gray-500">
                 <% if (product.variation != nil) and (product.pattern != nil) then %>
@@ -41,4 +38,12 @@
       <% end %>
     </div>
   </div>
+  <div class="text-center my-4">
+    <div role="navigation" aria-label="Pagination" class="px-3 py-2 mx-2 text-gray-700 no-underline bg-white rounded-lg">
+      <div class="py-4">
+        <%= will_paginate @products, class: 'pagination' %>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -3,6 +3,8 @@ require "csv"
 # Clearing existing records for re-seeding
 User.delete_all
 Province.delete_all
+ProductVariation.delete_all
+ProductPattern.delete_all
 Product.delete_all
 Order.delete_all
 OrderProduct.delete_all
@@ -10,6 +12,8 @@ OrderProduct.delete_all
 # Resetting PK on tables
 ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='users';")
 ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='provinces';")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='product_variations';")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='product_patterns';")
 ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='products';")
 ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='orders';")
 ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='order_products';")
@@ -114,13 +118,23 @@ provinces.map{ |province|
 # Encoding in UTF-8 while removing BOM
 CSV.foreach(filename, 'r:BOM|UTF-8', headers: true) do |row|
   # Replaces "NA" values with equivalent values
-  product = Product.create(
-    name:      row["Name"],
-    variation: row["Variation"] == "NA" ? nil : row["Variation"],
-    pattern:   row["Pattern"] == "NA" ? nil : row["Pattern"],
-    outdoor:   row["Outdoor"] == "Yes" ? true : false,
-    price:     Faker::Commerce.price,
-    on_sale:   0
-  )
+  product = Product.find_or_create_by(
+    name:    row["Name"],
+    outdoor: row["Outdoor"] == "Yes",
+    on_sale: 0
+  ) do |new_product|
+    new_product.price = Faker::Commerce.price # Set the price only if the product is newly created
+  end
+
+  unless row["Variation"] == "NA"
+    variation = product.product_variations.find_or_create_by(variation_name: row["Variation"])
+    puts variation.inspect
+  end
+
+  unless row["Pattern"] == "NA"
+    pattern = product.product_patterns.find_or_create_by(pattern_name: row["Pattern"])
+    puts pattern.inspect
+  end
+
   puts product.inspect
 end

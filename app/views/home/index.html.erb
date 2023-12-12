@@ -1,3 +1,48 @@
 <h1>Home#index</h1>
 <p>Find me in app/views/home/index.html.erb</p>
 
+
+
+
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Products</h2>
+
+    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      <% @products.each do |product| %>
+        <div class="group relative">
+          <%# <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+            On hold until images are figured out.
+            <img src="" alt="" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+          </div> %>
+
+          <div class="mt-4 flex justify-between">
+            <div>
+              <h3 class="text-sm text-gray-700">
+                <%= link_to product.name.titleize, product_path(product), class: "absolute inset-0 md:hover:text-blue-700" %>
+              </h3>
+              <p class="mt-1 text-sm text-gray-500">
+                <% if (product.variation != nil) and (product.pattern != nil) then %>
+                  <%= product.variation %> - <%= product.pattern %>
+                <% elsif (product.variation != nil) %>
+                  <%= product.variation %>
+                <% elsif (product.pattern != nil) %>
+                  <%= product.pattern %>
+                <% end %>
+              </p>
+            </div>
+            <p class="text-sm font-medium text-gray-900">$<%= product.price %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="text-center my-4">
+    <div role="navigation" aria-label="Pagination" class="px-3 py-2 mx-2 text-gray-700 no-underline bg-white rounded-lg">
+      <div class="py-4">
+        <%= will_paginate @products, class: 'pagination' %>
+      </div>
+    </div>
+  </div>
+
+</div>

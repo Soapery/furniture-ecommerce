@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_12_225426) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_12_232805) do
   create_table "order_products", force: :cascade do |t|
     t.integer "amount"
     t.decimal "base_cost"
@@ -52,8 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_12_225426) do
 
   create_table "products", force: :cascade do |t|
     t.string "name", limit: 50
-    t.string "variation", limit: 50
-    t.string "pattern", limit: 50
     t.boolean "outdoor"
     t.decimal "price"
     t.decimal "on_sale"

@@ -78,3 +78,6 @@ gem "devise"
 gem 'faker', '~> 3.2'
 
 gem "tailwindcss-rails", "~> 2.0"
+
+gem 'will_paginate', '~> 4.0.0'
+gem 'will_paginate-bootstrap'

@@ -10,11 +10,14 @@ Rails.application.routes.draw do
   # Defines the About page route
   get '/about', to: 'pages#about', as: 'about'
 
+  get '/contact', to: 'pages#contact', as: 'contact'
+
+
   # Defines the admin page route
   get '/admin', to: 'pages#admin', as: 'admin'
 
 
-  get '/contact', to: 'pages#contact', as: 'contact'
+
 
 
 

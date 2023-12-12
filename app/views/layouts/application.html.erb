@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>FurnitureEcommerce</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<head>
+  <title>FurnitureEcommerce</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+<% if current_user %>
+  <nav class="bg-gray-800 py-4">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <ul class="flex space-x-4">
+        <li>
+          <%= link_to 'Home', root_path, class: 'text-white hover:text-gray-300' %>
+        </li>
+        <li>
+          <%= link_to 'About', about_path, class: 'text-white hover:text-gray-300' %>
+        </li>
+            <% if current_user.admin? %>
+          <li>
+            <%= link_to 'Admin', admin_path, class: 'text-white hover:text-gray-300' %>
+          </li>
+        <% end %>
+      </ul>
+      <%= button_to "Log out", destroy_user_session_path, method: 'delete', class: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
+    </div>
+  </nav>
+  <p>Hello <%= current_user.username %> </p>
+  <p>You are a [<%= current_user.role %>]</p>
+  <% if current_user.admin? %>
+    <p> There are <%= User.count %> users in the system </p>
+  <% end %>
+<% else %>
+  <nav class="bg-gray-800 py-4">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <ul class="flex space-x-4">
+        <li>
+          <%= link_to 'Home', root_path, class: 'text-white hover:text-gray-300' %>
+        </li>
+        <li>
+          <%= link_to 'About', about_path, class: 'text-white hover:text-gray-300' %>
+        </li>
+      </ul>
+      <div>
+        <%= link_to 'Sign Up', new_user_registration_path, class: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2' %>
+        <%= link_to 'Log In', new_user_session_path, class: 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded' %>
+      </div>
+    </div>
+  </nav>
+<% end %>
 
-  <body>
-    <%= yield %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-  </body>
+<%= yield %>
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+</body>
 </html>

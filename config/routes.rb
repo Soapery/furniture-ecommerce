@@ -6,7 +6,16 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  # Defines the About page route
+  get '/about', to: 'pages#about', as: 'about'
+
+  # Defines the admin page route
+  get '/admin', to: 'pages#admin', as: 'admin'
+
+
   # Defines the root path route ("/")
   # root "articles#index"
    root to: "home#index"
 end
+

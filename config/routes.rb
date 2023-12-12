@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get '/admin', to: 'pages#admin', as: 'admin'
 
 
+  get '/contact', to: 'pages#contact', as: 'contact'
+
+
+
   # Defines the root path route ("/")
   # root "articles#index"
    root to: "home#index"

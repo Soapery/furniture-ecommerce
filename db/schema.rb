@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_13_062303) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_13_012455) do
   create_table "about_contents", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
@@ -32,18 +32,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_13_062303) do
     t.decimal "total_cost"
     t.integer "order_id", null: false
     t.integer "product_id", null: false
+    t.integer "product_variation_id"
+    t.integer "product_pattern_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_products_on_order_id"
     t.index ["product_id"], name: "index_order_products_on_product_id"
+    t.index ["product_pattern_id"], name: "index_order_products_on_product_pattern_id"
+    t.index ["product_variation_id"], name: "index_order_products_on_product_variation_id"
   end
 
   create_table "orders", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.decimal "base_cost"
     t.decimal "total_cost"
     t.string "order_status", limit: 50
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "product_patterns", force: :cascade do |t|
@@ -67,9 +73,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_13_062303) do
     t.boolean "outdoor"
     t.decimal "price"
     t.decimal "on_sale"
+    t.string "description", limit: 600
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "description", limit: 600
   end
 
   create_table "provinces", force: :cascade do |t|
@@ -104,7 +110,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_13_062303) do
   end
 
   add_foreign_key "order_products", "orders"
+  add_foreign_key "order_products", "product_patterns"
+  add_foreign_key "order_products", "product_variations"
   add_foreign_key "order_products", "products"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_patterns", "products"
   add_foreign_key "product_variations", "products"
   add_foreign_key "users", "provinces"

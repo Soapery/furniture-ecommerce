@@ -34,23 +34,24 @@
                     </div>
                 </div>
                 <div class="mb-4">
-                    <span class="font-bold text-gray-700 dark:text-gray-300">Select Color:</span>
-                    <div class="flex items-center mt-2">
-                        <button class="w-6 h-6 rounded-full bg-gray-800 dark:bg-gray-200 mr-2"></button>
-                        <button class="w-6 h-6 rounded-full bg-red-500 dark:bg-red-700 mr-2"></button>
-                        <button class="w-6 h-6 rounded-full bg-blue-500 dark:bg-blue-700 mr-2"></button>
-                        <button class="w-6 h-6 rounded-full bg-yellow-500 dark:bg-yellow-700 mr-2"></button>
-                    </div>
+                    <% if @variations.any? then %>
+                      <span class="font-bold text-gray-700 dark:text-gray-300">Select Variation:</span>
+                      <div class="flex items-center mt-2">
+                        <% @variations.each do |variation| %>
+                          <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600 whitespace-nowrap"><%= variation.variation_name.titleize %></button>
+                        <% end %>
+                      </div>
+                    <% end %>
                 </div>
                 <div class="mb-4">
-                    <span class="font-bold text-gray-700 dark:text-gray-300">Select Size:</span>
-                    <div class="flex items-center mt-2">
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">S</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">M</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">L</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XL</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XXL</button>
-                    </div>
+                    <% if @patterns.any? then %>
+                      <span class="font-bold text-gray-700 dark:text-gray-300">Select Pattern:</span>
+                      <div class="flex items-center mt-2">
+                        <% @patterns.each do |pattern| %>
+                          <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600 whitespace-nowrap"><%= pattern.pattern_name.titleize %></button>
+                        <% end %>
+                      </div>
+                    <% end %>
                 </div>
                 <div>
                     <span class="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>

@@ -17,7 +17,12 @@ Rails.application.routes.draw do
   get '/admin', to: 'pages#admin', as: 'admin'
 
 
+  get '/admin/edit_about', to: 'admin#edit_about', as: 'edit_about'
+  patch '/admin/about', to: 'admin#update_about', as: 'update_about'
 
+  # Contact content routes
+  get '/admin/edit_contact', to: 'admin#edit_contact', as: 'edit_contact'
+  patch '/admin/update_contact', to: 'admin#update_contact', as: 'update_contact'
 
 
 

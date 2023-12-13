@@ -1,0 +1,15 @@
+<div class="max-w-2xl mx-auto py-8">
+  <div class="bg-white shadow-md rounded px-8 py-6 mb-4">
+    <h1 class="text-3xl font-bold mb-4">Edit About</h1>
+
+    <%= form_with(model: @about_content, url: update_about_path, method: :patch) do |form| %>
+      <div class="mb-4">
+        <%= form.label :content, class: 'block text-gray-700 font-bold mb-2' %>
+        <%= form.text_area :content, name: 'about_content[content]', class: 'block w-full border border-gray-300 rounded px-3 py-2 leading-tight focus:outline-none focus:border-blue-500' %>
+      </div>
+<%= form.submit 'Update About Content', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer mr-2' %>
+    <% end %>
+
+<%= link_to 'Back to About', about_path, class: 'inline-block mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer ml-2' %>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+class AboutContent < ApplicationRecord
+end

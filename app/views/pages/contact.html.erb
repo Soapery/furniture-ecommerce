@@ -1,3 +1,10 @@
-<h1>Contact Us</h1>
-<p>Feel free to contact us at contact@example.com</p>
-<p> adsfasdfadsf </p>
+<div class="max-w-2xl mx-auto py-8">
+  <div class="bg-white shadow-md rounded px-8 py-6 mb-4">
+    <h1 class="text-3xl font-bold mb-4">Contact</h1>
+    <p class="text-lg mb-4"><%= @contact_content.content %></p>
+
+    <% if current_user&.admin? %>
+      <%= link_to 'Admin Panel', edit_contact_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    <% end %>
+  </div>
+</div>

@@ -1,2 +1,10 @@
-<h1>Pages#about</h1>
-<p>Furniture based E-Commerce website.</p>
+<div class="max-w-2xl mx-auto py-8">
+  <div class="bg-white shadow-md rounded px-8 py-6 mb-4">
+    <h1 class="text-3xl font-bold mb-4">About</h1>
+    <p class="text-lg mb-4"><%= @about_content.content %></p>
+
+    <% if current_user&.admin? %>
+      <%= link_to 'Admin Panel', edit_about_path, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700' %>
+    <% end %>
+  </div>
+</div>

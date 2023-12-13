@@ -1,0 +1,26 @@
+<!-- app/views/products/edit.html.erb -->
+<h1>Edit Product</h1>
+
+<%= form_for @product, url: product_path(@product), method: :patch do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price, step: '0.01' %>
+  </div>
+  <div>
+    <%= f.label :outdoor %>
+    <%= f.check_box :outdoor %>
+  </div>
+  <div>
+    <%= f.label :on_sale %>
+    <%= f.number_field :on_sale, step: '0.01' %>
+  </div>
+  <!-- Add other fields for patterns or other associations if needed -->
+
+  <div>
+    <%= f.submit "Update Product" %>
+  </div>
+<% end %>

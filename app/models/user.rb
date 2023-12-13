@@ -35,16 +35,16 @@ class User < ApplicationRecord
 
   attr_accessor :province
 
-  validates :full_name, presence: true
+  # validates :full_name, presence: true
   validates :email, format: { with: Devise.email_regexp }
-  validates :province, presence: true, on: :create
+  validates :province, presence: false, on: :create
   validates :encrypted_password, presence: true
-  validates_date :birthday, on_or_before: -> { 18.years.ago }
+  # validates_date :birthday, on_or_before: -> { 18.years.ago }
   validates :address, presence: true
 
-
-  validates :postal_code, format: { with: /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/, message: "must be a valid Canadian postal code" }
-
+  validates :postal_code,
+            format: { with:    /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/,
+                      message: "must be a valid Canadian postal code" }
 
   def validate_username
     return unless User.where(email: username).exists?

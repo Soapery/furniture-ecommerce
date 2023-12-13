@@ -1,0 +1,28 @@
+<h1>New Product</h1>
+
+<%= form_for @product, url: products_path, method: :post do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price, step: '0.01' %>
+  </div>
+  <div>
+    <%= f.label :outdoor %>
+    <%= f.check_box :outdoor %>
+  </div>
+  <div>
+    <%= f.label :on_sale %>
+    <%= f.number_field :on_sale, step: '0.01' %>
+  </div>
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.submit "Create Product" %>
+  </div>
+<% end %>

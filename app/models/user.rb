@@ -39,7 +39,7 @@ class User < ApplicationRecord
   validates :email, format: { with: Devise.email_regexp }
   validates :province, presence: true, on: :create
   validates :encrypted_password, presence: true
-  validates :birthday, on_or_before: -> { Date.current }
+  validates_date :birthday, on_or_before: -> { 18.years.ago }
   validates :address, presence: true
 
 

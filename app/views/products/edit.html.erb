@@ -1,26 +1,33 @@
 <!-- app/views/products/edit.html.erb -->
-<h1>Edit Product</h1>
+<div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+  <h1 class="text-2xl font-bold mb-4">Edit Product</h1>
 
-<%= form_for @product, url: product_path(@product), method: :patch do |f| %>
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <div>
-    <%= f.label :price %>
-    <%= f.number_field :price, step: '0.01' %>
-  </div>
-  <div>
-    <%= f.label :outdoor %>
-    <%= f.check_box :outdoor %>
-  </div>
-  <div>
-    <%= f.label :on_sale %>
-    <%= f.number_field :on_sale, step: '0.01' %>
-  </div>
-  <!-- Add other fields for patterns or other associations if needed -->
+  <%= form_for @product, url: product_path(@product), method: :patch do |f| %>
+    <div class="mb-4">
+      <%= f.label :name, class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.text_field :name, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
 
-  <div>
-    <%= f.submit "Update Product" %>
-  </div>
-<% end %>
+    <div class="mb-4">
+      <%= f.label :price, class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.number_field :price, step: '0.01', class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :outdoor, class: "flex items-center" %>
+      <%= f.check_box :outdoor, class: "form-checkbox h-5 w-5 text-indigo-600" %>
+      <span class="ml-2 text-gray-700 font-bold">Outdoor</span>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :on_sale, class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.number_field :on_sale, step: '0.01', class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
+
+    <!-- Add other fields for patterns or other associations if needed -->
+
+    <div class="text-center">
+      <%= f.submit "Update Product", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300" %>
+    </div>
+  <% end %>
+</div>

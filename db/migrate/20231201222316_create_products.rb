@@ -6,6 +6,7 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.boolean :outdoor
       t.decimal :price
       t.decimal :on_sale
+      t.string  :description,  limit: 600
 
       t.timestamps
     end

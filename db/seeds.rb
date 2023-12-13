@@ -123,6 +123,7 @@ CSV.foreach(filename, 'r:BOM|UTF-8', headers: true) do |row|
     outdoor: row["Outdoor"] == "Yes",
     on_sale: 0
   ) do |new_product|
+    new_product.description = Faker::Lorem.paragraph_by_chars(number: 600)
     new_product.price = Faker::Commerce.price # Set the price only if the product is newly created
   end
 

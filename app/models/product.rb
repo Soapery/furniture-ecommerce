@@ -5,7 +5,7 @@ class Product < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :description, presence: true, length: { maximum: 600 }
-  validates :outdoor, presence: true
+  validates :outdoor, inclusion: [true, false]
   validates :price, numericality: true, presence: true
   validates :on_sale, numericality: true, presence: true
 end

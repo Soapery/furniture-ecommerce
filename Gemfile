@@ -80,3 +80,5 @@ gem 'faker', '~> 3.2'
 gem "tailwindcss-rails", "~> 2.0"
 
 gem 'kaminari'
+
+gem 'validates_timeliness', '~> 7.0.0.beta1'

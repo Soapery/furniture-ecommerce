@@ -1,0 +1,15 @@
+<div class="max-w-2xl mx-auto py-8">
+  <div class="bg-white shadow-md rounded px-8 py-6 mb-4">
+    <h1 class="text-3xl font-bold mb-4">Edit Contact</h1>
+
+    <%= form_with(model: @contact_content, url: update_contact_path, method: :patch) do |form| %>
+      <div class="mb-4">
+        <%= form.label :content, class: 'block text-gray-700 font-bold mb-2' %>
+        <%= form.text_area :content, name: 'contact_content[content]', class: 'block w-full border border-gray-300 rounded px-3 py-2 leading-tight focus:outline-none focus:border-blue-500' %>
+      </div>
+      <%= form.submit 'Update Contact Content', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %> <!-- Button styling -->
+    <% end %>
+
+    <%= link_to 'Back to Contact', contact_path, class: 'block mt-4 text-blue-500 hover:underline' %> <!-- Link styling -->
+  </div>
+</div>

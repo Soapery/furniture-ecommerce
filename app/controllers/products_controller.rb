@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update]
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
     @products = Product.order(:name)
@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    # Renders the edit view
   end
 
   def update
@@ -38,6 +37,12 @@ class ProductsController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    @product.destroy
+    redirect_to root_path, notice: 'Product was successfully deleted.'
+  end
+
 
   private
 

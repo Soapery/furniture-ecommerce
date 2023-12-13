@@ -35,6 +35,9 @@ class User < ApplicationRecord
   attr_accessor :province
   validates :province, presence: false, on: :create
 
+  validates :postal_code, format: { with: /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/, message: "must be a valid Canadian postal code" }
+
+
   def validate_username
     if User.where(email: username).exists?
       errors.add(:username, :invalid)

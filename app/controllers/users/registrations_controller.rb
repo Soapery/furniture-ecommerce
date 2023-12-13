@@ -62,8 +62,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :province_id])
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :province_id)
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :province_id, :address, :postal_code])
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :province_id, :address, :postal_code)
   end
 
 

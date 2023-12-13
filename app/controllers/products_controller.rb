@@ -1,5 +1,10 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update]
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @products = Product.order(:name)
+  end
+
   def show
     @product = Product.find(params[:id])
 
@@ -8,7 +13,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    # Renders the edit view
   end
 
   def update
@@ -20,10 +24,30 @@ class ProductsController < ApplicationController
     end
   end
 
+  def new
+    @product = Product.new
+  end
+
+  def create
+    @product = Product.new(product_params)
+    puts product_params.inspect
+    if @product.save
+      redirect_to @product, notice: 'Product was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  def destroy
+    @product.destroy
+    redirect_to root_path, notice: 'Product was successfully deleted.'
+  end
+
+
   private
 
   def product_params
-    params.require(:product).permit(:name, :price, :outdoor, :on_sale)
+    params.require(:product).permit(:name, :price, :outdoor, :on_sale, :description)
   end
 
   def set_product

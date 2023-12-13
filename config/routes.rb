@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
 
   # Product route
-  resources :products, only: [:show, :edit, :update], path: "products"
+  resources :products, only: [:show, :edit, :update, :new, :create, :destroy], path: "products"
 
 
 

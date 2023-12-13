@@ -21,15 +21,6 @@
               <h3 class="text-sm text-gray-700">
                 <%= link_to product.name.titleize, product_path(product), class: "absolute inset-0 md:hover:text-blue-700" %>
               </h3>
-              <p class="mt-1 text-sm text-gray-500">
-                <% if (product.variation != nil) and (product.pattern != nil) then %>
-                  <%= product.variation %> - <%= product.pattern %>
-                <% elsif (product.variation != nil) %>
-                  <%= product.variation %>
-                <% elsif (product.pattern != nil) %>
-                  <%= product.pattern %>
-                <% end %>
-              </p>
             </div>
             <p class="text-sm font-medium text-gray-900">$<%= product.price %></p>
           </div>

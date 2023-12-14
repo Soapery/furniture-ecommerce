@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_13_012455) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_14_232051) do
   create_table "about_contents", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
@@ -49,7 +49,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_13_012455) do
     t.string "order_status", limit: 50
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_method"
+    t.string "status"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.string "stripe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_payments_on_order_id"
   end
 
   create_table "product_patterns", force: :cascade do |t|
@@ -103,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_13_012455) do
     t.integer "role", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["province_id"], name: "index_users_on_province_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -114,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_13_012455) do
   add_foreign_key "order_products", "product_variations"
   add_foreign_key "order_products", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "payments", "orders"
   add_foreign_key "product_patterns", "products"
   add_foreign_key "product_variations", "products"
   add_foreign_key "users", "provinces"

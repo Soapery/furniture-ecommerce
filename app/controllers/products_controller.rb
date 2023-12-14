@@ -49,6 +49,14 @@ class ProductsController < ApplicationController
   end
 end
 
+def search
+  if params[:search].present?
+    @products = Product.where("name LIKE ?", "%#{params[:search]}%").page(params[:page]).per(10)
+  else
+    @products = Product.all.page(params[:page]).per(40)
+  end
+  render 'home/index'
+end
   private
 
   def product_params

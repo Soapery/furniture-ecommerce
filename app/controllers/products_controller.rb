@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: %i[show edit update destroy]
 
   def index
     @products = Product.order(:name)
@@ -12,13 +12,12 @@ class ProductsController < ApplicationController
     @patterns = @product.product_patterns
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @product = Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product was successfully updated.'
+      redirect_to @product, notice: "Product was successfully updated."
     else
       render :edit
     end
@@ -32,7 +31,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
     puts product_params.inspect
     if @product.save
-      redirect_to @product, notice: 'Product was successfully created.'
+      redirect_to @product, notice: "Product was successfully created."
     else
       render :new
     end
@@ -40,18 +39,17 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    redirect_to root_path, notice: 'Product was successfully deleted.'
+    redirect_to root_path, notice: "Product was successfully deleted."
   end
 
   def search
-    if params[:search].present?
-      @products = Product.where("name LIKE ?", "%#{params[:search]}%").page(params[:page]).per(10)
-    else
-      @products = Product.all.page(params[:page]).per(40)
-    end
-    render 'home/index'
+    @products = if params[:search].present?
+                  Product.where("name LIKE ?", "%#{params[:search]}%").page(params[:page]).per(10)
+                else
+                  Product.all.page(params[:page]).per(40)
+                end
+    render "home/index"
   end
-
 
   private
 

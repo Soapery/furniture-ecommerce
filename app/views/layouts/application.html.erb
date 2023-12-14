@@ -34,6 +34,11 @@
             <%= link_to 'Admin', admin_path, class: 'text-white hover:text-gray-300' %>
           </li>
         <% end %>
+         <li class="dropdown">
+          <a href="#" class="text-white hover:text-gray-300">Variations</a>
+          <div class="dropdown-content hidden absolute bg-gray-800 rounded-md py-2">
+            <!-- Variations will be listed here -->
+          </div>
       </ul>
       <%= button_to "Log out", destroy_user_session_path, method: 'delete', class: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
     </div>

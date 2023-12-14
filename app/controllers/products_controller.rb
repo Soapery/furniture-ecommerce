@@ -43,6 +43,11 @@ class ProductsController < ApplicationController
     redirect_to root_path, notice: 'Product was successfully deleted.'
   end
 
+  def variations
+    @variations = ProductVariation.pluck(:variation_name)
+    render json: @variations
+  end
+end
 
   private
 

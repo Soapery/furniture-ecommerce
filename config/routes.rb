@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get '/admin/edit_contact', to: 'admin#edit_contact', as: 'edit_contact'
   patch '/admin/update_contact', to: 'admin#update_contact', as: 'update_contact'
 
-
+  get 'variations', to: 'products#variations'
 
   # Defines the root path route ("/")
   # root "articles#index"
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
   # Product route
   resources :products, only: [:show, :edit, :update, :new, :create, :destroy], path: "products"
+
+
 
 
 

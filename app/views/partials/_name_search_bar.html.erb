@@ -1,4 +1,4 @@
-<%= form_tag(search_path, method: :get) do %>
-  <%= text_field_tag :search, params[:search], placeholder: "Search Products" %>
-  <%= submit_tag "Search" %>
+<%= form_tag(search_path, method: :get, class: "flex") do %>
+  <%= text_field_tag :search, params[:search], placeholder: "Search Products", class: "rounded-l border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white rounded-l-none py-2 px-3" %>
+  <%= submit_tag "Search", class: "px-4 py-2 bg-teal-500 text-white font-semibold rounded-r border border-teal-500 hover:bg-teal-600 focus:outline-none focus:bg-teal-600" %>
 <% end %>

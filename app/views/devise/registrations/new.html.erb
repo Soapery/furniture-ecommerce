@@ -1,5 +1,14 @@
+<%# <script src="https://maps.googleapis.com/maps/api/js?key=MT29-CB44-ZZ75-CA51&libraries=places"></script> %>
+
+<%# <script src="https://cdn.pcapredict.com/js/somewhere/addresscomplete-1.00.0.min.js"></script> %>
+
+
+
 <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
   <h1 class="text-2xl font-bold mb-4">Sign Up</h1>
+
+
+
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -42,10 +51,10 @@
     <%= f.date_select :birthday, start_year: Date.today.year - 100, end_year: Date.today.year - 18, prompt: { day: 'Select day', month: 'Select month', year: 'Select year' } %>
   </div>
 
-    <div class="mb-4">
-      <%= f.label :address, class: "block text-gray-700 font-bold mb-2" %>
-      <%= f.text_field :address, autofocus: true, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
-    </div>
+<div class="mb-4">
+  <%= f.label :address, class: "block text-gray-700 font-bold mb-2" %>
+  <%= f.text_field :address, id: "autocomplete", class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+</div>
 
     <div class="mb-4">
       <%= f.label :postal_code, class: "block text-gray-700 font-bold mb-2" %>
@@ -59,3 +68,18 @@
 
   <%= render "devise/shared/links" %>
 </div>
+
+
+
+<%# <!-- AddressComplete setup -->
+<script type="text/javascript">
+  var fields = [
+    { element: "autocomplete", field: "address", mode: pca.fieldMode.POPULATE }
+  ];
+
+  var options = {
+    key: "MT29-CB44-ZZ75-CA51"
+  };
+
+  var control = new pca.Address(fields, options);
+</script> %>

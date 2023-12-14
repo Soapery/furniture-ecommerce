@@ -43,6 +43,15 @@ class ProductsController < ApplicationController
     redirect_to root_path, notice: 'Product was successfully deleted.'
   end
 
+  def search
+    if params[:search].present?
+      @products = Product.where("name LIKE ?", "%#{params[:search]}%").page(params[:page]).per(10)
+    else
+      @products = Product.all.page(params[:page]).per(40)
+    end
+    render 'home/index'
+  end
+
 
   private
 

@@ -82,3 +82,6 @@ gem "tailwindcss-rails", "~> 2.0"
 gem 'kaminari'
 
 gem 'validates_timeliness', '~> 7.0.0.beta1'
+
+gem 'rubocop'
+gem 'rubocop-rails'

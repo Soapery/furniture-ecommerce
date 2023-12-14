@@ -42,6 +42,14 @@ class User < ApplicationRecord
   validates_date :birthday, on_or_before: -> { 18.years.ago }
   validates :address, presence: true
   validates :birthday, presence: true
+  validates :stripe_id, presence: true
+
+  before_validation :create_on_stripe, on: :create
+  def create_on_stripe
+    params = { email:, name: full_ }
+    response = Stripe::Customer.create(params)
+    self.stripe_id = response.id
+  end
 
   validates :postal_code,
             format: { with:    /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/,

@@ -2,10 +2,10 @@
   <h1 class="text-2xl font-bold mb-4">Your Cart</h1>
 
   <% if session[:cart].present? %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="">
       <% session[:cart].each do |product_id, quantity| %>
         <% product = Product.find(product_id) %>
-        <div class="border rounded mx-auto">
+        <div class="border rounded mx-auto w-max px-5 mb-4">
           <p class="text-lg mb-2"><%= product.name.titleize %> - Quantity:</p>
           <%= form_tag update_product_quantity_path(id: product.id), method: :patch, class: "flex items-center" do %>
             <%= number_field_tag :quantity, quantity, in: 1..10, class: "border border-gray-300 px-2 py-1 rounded ml-2" %>

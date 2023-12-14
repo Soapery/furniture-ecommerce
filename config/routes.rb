@@ -33,7 +33,17 @@ Rails.application.routes.draw do
 
   # Product route
   resources :products, only: [:show, :edit, :update, :new, :create, :destroy], path: "products"
+  get '/search', to: 'products#search'
 
+  post '/add_to_cart/:id', to: 'cart#add_to_cart', as: 'add_to_cart'
+  patch '/update_product_quantity/:id', to: 'cart#update_product_quantity', as: 'update_product_quantity'
+  get '/remove_product/:id', to: 'cart#remove_product', as: 'remove_product'
+  get '/cart', to: 'cart#show', as: 'cart'
+
+  get '/confirm_order', to: 'checkout#confirm_order', as: 'confirm_order_checkout'
+  get '/checkout', to: 'checkout#checkout', as: 'checkout_checkout'
+  get '/order_confirmed', to: 'checkout#order_confirmed', as: 'order_confirmed'
+  patch '/update_address', to: 'checkout#update_address', as: 'address_checkout'
 
 
 end

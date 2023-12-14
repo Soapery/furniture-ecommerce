@@ -1,0 +1,24 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+  <h1 class="text-2xl font-bold mb-4">Your Cart</h1>
+
+  <% if session[:cart].present? %>
+    <div class="">
+      <% session[:cart].each do |product_id, quantity| %>
+        <% product = Product.find(product_id) %>
+        <div class="border rounded mx-auto w-max px-5 mb-4">
+          <p class="text-lg mb-2"><%= product.name.titleize %> - Quantity:</p>
+          <%= form_tag update_product_quantity_path(id: product.id), method: :patch, class: "flex items-center" do %>
+            <%= number_field_tag :quantity, quantity, in: 1..10, class: "border border-gray-300 px-2 py-1 rounded ml-2" %>
+            <%= submit_tag 'Update', class: "bg-blue-500 text-white px-3 py-1 rounded ml-2 hover:bg-blue-600 focus:outline-none" %>
+          <% end %>
+          <%= link_to 'Remove', remove_product_path(product), method: :post, data: { confirm: 'Are you sure?' }, class: "text-red-500 ml-2" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="mt-4 sm:grid sm:justify-end">
+      <%= link_to 'Checkout', checkout_checkout_path, class: "bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 focus:outline-none" %>
+    </div>
+  <% else %>
+    <p>You need items to check out.</p>
+  <% end %>
+</div>

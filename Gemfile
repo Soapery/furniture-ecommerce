@@ -85,3 +85,5 @@ gem 'validates_timeliness', '~> 7.0.0.beta1'
 
 gem 'rubocop'
 gem 'rubocop-rails'
+
+gem 'stripe', '~> 10.2'

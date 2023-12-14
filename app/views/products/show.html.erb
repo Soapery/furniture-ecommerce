@@ -1,29 +1,3 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const variationButtons = document.querySelectorAll(".variation-button");
-    const patternButtons = document.querySelectorAll(".pattern-button");
-
-    function handleButtonClick(buttons) {
-      buttons.forEach((button) => {
-        button.addEventListener("click", function () {
-          // Remove the 'bg-gray-300' and 'text-gray-700' classes from all buttons
-          buttons.forEach((btn) => {
-            btn.classList.remove("bg-gray-300", "text-gray-700");
-            btn.classList.add("bg-gray-700", "text-white");
-          });
-
-          // Add the 'bg-gray-300' and 'text-gray-700' classes to the clicked button
-          button.classList.remove("bg-gray-700", "text-white");
-          button.classList.add("bg-gray-300", "text-gray-700");
-        });
-      });
-    }
-
-    // Call the function with your variation and pattern buttons
-    handleButtonClick(variationButtons);
-    handleButtonClick(patternButtons);
-  });
-</script>
 <div class="bg-gray-100 dark:bg-gray-800 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row -mx-4">

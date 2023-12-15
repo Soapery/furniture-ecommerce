@@ -21,4 +21,7 @@
   <% else %>
     <p>You need items to check out.</p>
   <% end %>
+  <% if flash[:alert] %>
+    <p class="text-red-500"><%= flash[:alert] %></p>
+  <% end %>
 </div>

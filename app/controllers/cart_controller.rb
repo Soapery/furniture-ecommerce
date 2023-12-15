@@ -20,7 +20,8 @@ class CartController < ApplicationController
   def remove_product
     product_id = params[:id]
     session[:cart].delete(product_id) if session[:cart].key?(product_id)
-    redirect_to cart_path, notice: "Item removed from cart"
+    flash[:alert] = "Item removed from cart"
+    redirect_to cart_path
   end
 
   def show; end

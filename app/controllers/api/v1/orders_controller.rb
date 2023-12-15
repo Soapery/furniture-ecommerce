@@ -31,53 +31,50 @@ module Api
               )
               order_product.save
             end
-            render json: { order: @order, payment: @order.payment }, status: :created
+            session[:cart] = {}
+          end
+        end
+
+        def checkout
+          @user = User.find(current_user.id)
+          Rails.logger.debug(current_user.inspect)
+          @province = Province.find(current_user.province_id)
+
+          @cart_products = session[:cart].map do |product_id, quantity|
+            product = Product.find(product_id)
+            { product:, quantity: }
           end
 
-        else
-          render json: { errors: @order.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
+          @subtotal = calculate_subtotal(@cart_products)
+          @total = calculate_total(@subtotal, @province.gst,
+                                   @province.pst, @province.hst)
+          session[:order_total] = @total
 
-      def checkout
-        @user = User.find(current_user.id)
-        Rails.logger.debug(current_user.inspect)
-        @province = Province.find(current_user.province_id)
-
-        @cart_products = session[:cart].map do |product_id, quantity|
-          product = Product.find(product_id)
-          { product:, quantity: }
+          render "checkout/show"
         end
 
-        @subtotal = calculate_subtotal(@cart_products)
-        @total = calculate_total(@subtotal, @province.gst,
-                                 @province.pst, @province.hst)
-        session[:order_total] = @total
-
-        render "checkout/show"
-      end
-
-      def calculate_subtotal(cart_products)
-        cart_products.sum { |item| item[:product].price * item[:quantity] }
-      end
-
-      def calculate_total(subtotal, pst, gst, hst)
-        subtotal * (pst.to_f + gst.to_f + hst.to_f + 1)
-      end
-
-      def check_shipping_info(user)
-        unless user.postal_code.blank? || current_user.address.blank? || current_user.province_id.blank?
-          return true
+        def calculate_subtotal(cart_products)
+          cart_products.sum { |item| item[:product].price * item[:quantity] }
         end
 
-        flash[:alert] = "Please provide shipping address information to confirm the order."
-        redirect_to checkout_checkout_path
-        false
-      end
+        def calculate_total(subtotal, pst, gst, hst)
+          subtotal * (pst.to_f + gst.to_f + hst.to_f + 1)
+        end
 
-      def order_params
-        params.permit(:user_id, :base_cost, :total_cost, :credit_card_number, :credit_card_exp,
-                      :credit_card_cvv, :authenticity_token, :commit)
+        def check_shipping_info(user)
+          unless user.postal_code.blank? || current_user.address.blank? || current_user.province_id.blank?
+            return true
+          end
+
+          flash[:alert] = "Please provide shipping address information to confirm the order."
+          redirect_to checkout_checkout_path
+          false
+        end
+
+        def order_params
+          params.permit(:user_id, :base_cost, :total_cost, :credit_card_number, :credit_card_exp,
+                        :credit_card_cvv, :authenticity_token, :commit)
+        end
       end
     end
   end

@@ -1,4 +1,4 @@
-<%# <script src="https://maps.googleapis.com/maps/api/js?key=MT29-CB44-ZZ75-CA51&libraries=places"></script> %>
+<%# <script src="https://maps.googleapis.com/maps/api/js?key=EG11-PF58-RK97-EG61&libraries=places"></script> %>
 
 <%# <script src="https://cdn.pcapredict.com/js/somewhere/addresscomplete-1.00.0.min.js"></script> %>
 
@@ -50,6 +50,9 @@
     <%= f.label :birthday %>
     <%= f.date_select :birthday, start_year: Date.today.year - 100, end_year: Date.today.year - 18, prompt: { day: 'Select day', month: 'Select month', year: 'Select year' } %>
   </div>
+
+<link rel="stylesheet" type="text/css" href="http://ws1.postescanada-canadapost.ca/css/addresscomplete-2.30.min.css?key=rm98-fp48-cw47-zx79" /><script type="text/javascript" src="http://ws1.postescanada-canadapost.ca/js/addresscomplete-2.30.min.js?key=rm98-fp48-cw47-zx79&language=en"></script>
+
 
 <div class="mb-4">
   <%= f.label :address, class: "block text-gray-700 font-bold mb-2" %>

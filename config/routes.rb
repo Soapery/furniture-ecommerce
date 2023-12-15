@@ -24,16 +24,15 @@ Rails.application.routes.draw do
   get '/admin/edit_contact', to: 'admin#edit_contact', as: 'edit_contact'
   patch '/admin/update_contact', to: 'admin#update_contact', as: 'update_contact'
 
-  get 'variations', to: 'products#variations'
 
   # Defines the root path route ("/")
   # root "articles#index"
-   root to: "home#index"
+  root to: "home#index"
 
-
-  # Product route
-  resources :products, only: [:show, :edit, :update, :new, :create, :destroy], path: "products"
-
+  resources :products, only: [:index, :show, :edit, :update, :new, :create, :destroy] do
+    get 'variations/:variation', to: 'products#index', on: :collection, as: :variation
+    get 'search', on: :collection # Define the search route within the products resource
+  end
   get '/search', to: 'products#search'
 
 

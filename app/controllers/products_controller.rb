@@ -1,8 +1,14 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_variations
+
 
   def index
-    @products = Product.order(:name)
+    if params[:variation].present?
+      @products = Product.joins(:product_variations).where('product_variations.variation_name = ?', params[:variation]).order(:name)
+    else
+      @products = Product.order(:name)
+    end
   end
 
   def show
@@ -43,20 +49,26 @@ class ProductsController < ApplicationController
     redirect_to root_path, notice: 'Product was successfully deleted.'
   end
 
-  def variations
-    @variations = ProductVariation.pluck(:variation_name)
-    render json: @variations
-  end
-end
 
-def search
-  if params[:search].present?
-    @products = Product.where("name LIKE ?", "%#{params[:search]}%").page(params[:page]).per(10)
-  else
-    @products = Product.all.page(params[:page]).per(40)
+  def search
+
+    puts "Search Param: #{params[:search]}"
+    puts "Pattern Param: #{params[:pattern]}"
+    @products = Product.includes(:product_patterns)
+
+    if params[:search].present?
+      @products = @products.where("name LIKE ?", "%#{params[:search]}%")
+    end
+
+    if params[:pattern].present?
+      @products = @products.where(product_patterns: { pattern_name: params[:pattern] })
+    end
+
+    @products = @products.page(params[:page]).per(10)
+
+    render 'home/index'
   end
-  render 'home/index'
-end
+
   private
 
   def product_params

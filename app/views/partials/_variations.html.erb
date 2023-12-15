@@ -1,0 +1,32 @@
+<% if @variations.present? %>
+  <div class="relative inline-block text-left">
+    <button class="text-white hover:text-gray-300 px-4 py-2 block" id="variationsDropdown">Variations</button>
+    <div class="origin-top-right absolute right-0 mt-2 w-32 rounded-md bg-white shadow-lg z-10" id="variationsContent" style="display: none;">
+      <% @variations.each do |variation| %>
+        <%= link_to variation, variation_products_path(variation: variation), class: 'block px-4 py-2 text-gray-700 hover:bg-gray-100' %>
+      <% end %>
+    </div>
+    <div class="fixed top-0 left-0 w-full h-full bg-black opacity-25 z-9" id="backdrop" style="display: none;"></div>
+  </div>
+<% end %>
+
+<!-- Ensure jQuery is included -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your JavaScript code -->
+<script>
+  $(document).ready(function() {
+    $("#variationsDropdown").on("click", function(event) {
+      event.stopPropagation(); // Prevent the event from bubbling up
+      $("#variationsContent").toggle();
+      $("#backdrop").toggle();
+    });
+
+    $(document).on("click", function(event) {
+      if (!event.target.matches('#variationsDropdown')) {
+        $("#variationsContent").hide();
+        $("#backdrop").hide();
+      }
+    });
+  });
+</script>

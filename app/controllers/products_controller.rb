@@ -22,7 +22,18 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
+    pattern_names = params[:product][:pattern_names] # Fetch selected pattern names from params
+
+    # Clear existing associations to reassign the patterns
+    @product.product_patterns.destroy_all
+
     if @product.update(product_params)
+      # Associate each selected pattern with the updated product
+      pattern_names.each do |pattern_name|
+        selected_pattern = ProductPattern.find_by(pattern_name: pattern_name)
+        @product.product_patterns.create(pattern_name: pattern_name) if selected_pattern
+      end
+
       redirect_to @product, notice: "Product was successfully updated."
     else
       render :edit
@@ -31,12 +42,20 @@ class ProductsController < ApplicationController
 
   def new
     @product = Product.new
+    @patterns = ProductPattern.pluck(:pattern_name, :id) # Fetch pattern names and IDs
   end
 
   def create
     @product = Product.new(product_params)
-    Rails.logger.debug product_params.inspect
+    pattern_names = params[:product][:pattern_names] # Fetch selected pattern names from params
+
     if @product.save
+      # Associate each selected pattern with the newly created product
+      pattern_names.each do |pattern_name|
+        selected_pattern = ProductPattern.find_by(pattern_name: pattern_name)
+        @product.product_patterns.create(pattern_name: pattern_name) if selected_pattern
+      end
+
       redirect_to @product, notice: "Product was successfully created."
     else
       render :new
@@ -47,7 +66,6 @@ class ProductsController < ApplicationController
     @product.destroy
     redirect_to root_path, notice: "Product was successfully deleted."
   end
-
 
   def search
 
@@ -71,7 +89,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :price, :outdoor, :on_sale, :description)
+    params.require(:product).permit(:name, :price, :outdoor, :on_sale, :description, :pattern)
   end
 
   def set_product

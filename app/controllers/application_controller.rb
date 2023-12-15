@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_variations
-    @variations = ProductVariation.pluck(:variation_name)
+    @variations = ProductVariation.distinct.pluck(:variation_name)
   end
 
   def variations

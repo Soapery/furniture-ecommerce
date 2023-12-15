@@ -18,6 +18,16 @@
       <%= f.label :on_sale, class: "block text-gray-700 font-bold mb-2" %>
       <%= f.number_field :on_sale, step: '0.01', class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
     </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <% ProductPattern.pluck(:pattern_name).uniq.each do |pattern_name| %>
+        <div>
+          <%= check_box_tag 'product[pattern_names][]', pattern_name, @product.product_patterns.exists?(pattern_name: pattern_name), class: "form-checkbox h-5 w-5 text-indigo-600" %>
+          <%= label_tag "product_pattern_#{pattern_name}", pattern_name, class: "ml-2 text-gray-700 font-bold" %>
+        </div>
+      <% end %>
+    </div>
+
     <div class="mb-4">
       <%= f.label :description, class: "block text-gray-700 font-bold mb-2" %>
       <%= f.text_area :description, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>

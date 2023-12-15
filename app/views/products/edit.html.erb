@@ -1,7 +1,7 @@
 <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
   <h1 class="text-2xl font-bold mb-4">Edit Product</h1>
 
-<%= form_for @product, url: product_path(@product), method: :patch do |f| %>
+  <%= form_for @product, url: product_path(@product), method: :patch do |f| %>
     <div class="mb-4">
       <%= f.label :name, class: "block text-gray-700 font-bold mb-2" %>
       <%= f.text_field :name, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
@@ -23,21 +23,25 @@
       <%= f.number_field :on_sale, step: '0.01', class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
     </div>
 
-  <div class="mb-4">
-    <%= f.label :description, class: "block text-gray-700 font-bold mb-2" %>
-    <%= f.text_area :description, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
-  </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <% ProductPattern.pluck(:pattern_name).uniq.each do |pattern_name| %>
+        <div>
+          <%= check_box_tag 'product[pattern_names][]', pattern_name, @product.product_patterns.exists?(pattern_name: pattern_name), class: "form-checkbox h-5 w-5 text-indigo-600" %>
+          <%= label_tag "product_pattern_#{pattern_name}", pattern_name, class: "ml-2 text-gray-700 font-bold" %>
+        </div>
+      <% end %>
+    </div>
 
-    <!-- Maybe add Variation and Pattern??? -->
+    <div class="mb-4">
+      <%= f.label :description, class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.text_area :description, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
 
-
-
-
-  <div class="text-center">
-    <%= f.submit "Update Product", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300" %>
-  </div>
+    <div class="text-center">
+      <%= f.submit "Update Product", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300" %>
+    </div>
+    <div class="text-center mt-4">
+      <%= button_to "Delete Product", @product, method: :delete, data: { confirm: 'Are you sure?' }, class: "px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 transition duration-300" %>
+    </div>
   <% end %>
-
-<div class="text-center mt-4">
-  <%= button_to "Delete Product", @product, method: :delete, data: { confirm: 'Are you sure?' }, class: "px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 transition duration-300" %>
 </div>

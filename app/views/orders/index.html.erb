@@ -1,0 +1,49 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md ">
+  <h1 class="text-2xl font-bold mb-4">Previous Orders</h1>
+  <div class="grid grid-cols-1 divide-y">
+    <% @orders.each do |order| %>
+      <div>
+        <h2 class="text-lg font-bold mb-4 mt-4">Order <%= order.id %> - Placed: <%= order.created_at %></h2>
+
+        <p>Products:</p>
+        <table class="border-collapse w-full mb-8">
+          <thead>
+            <tr>
+              <th class="border border-gray-400 px-4 py-2">Product</th>
+              <th class="border border-gray-400 px-4 py-2">Quantity</th>
+              <th class="border border-gray-400 px-4 py-2">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% order.order_products.each do |order_product| %>
+              <tr class="border border-gray-400">
+                <td class="border border-gray-400 px-4 py-2"><%= order_product.product.name.titleize %></td>
+                <td class="border border-gray-400 px-4 py-2"><%= order_product.amount %></td>
+                <td class="border border-gray-400 px-4 py-2">$ <%= order_product.product.price %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <p class="mb-2">Subtotal: <%= number_to_currency(order.base_cost) %></p>
+        <% if order.order_products.first != nil %>
+          <% if order.order_products.first.gst != nil %>
+            <p class="mb-2">GST: <%= number_to_currency(order.base_cost * order.order_products.first.gst) %></p>
+          <% end %>
+
+        <% end %>
+        <% if order.order_products.first != nil %>
+          <% if order.order_products.first.pst != nil %>
+            <p class="mb-2">PST: <%= number_to_currency(order.base_cost * order.order_products.first.pst) %></p>
+          <% end %>
+        <% end %>
+        <% if order.order_products.first != nil %>
+          <% if order.order_products.first.hst != nil %>
+            <p class="mb-2">HST: <%= number_to_currency(order.base_cost * order.order_products.first.hst) %></p>
+          <% end %>
+        <% end %>
+        <p class="font-bold mb-4">Total: <%= number_to_currency(order.total_cost) %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+

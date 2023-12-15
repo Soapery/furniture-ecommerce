@@ -51,9 +51,6 @@ class User < ApplicationRecord
     self.stripe_id = response.id
   end
 
-  validates :postal_code,
-            format: { with:    /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/,
-                      message: "must be a valid Canadian postal code" }
 
   def validate_username
     return unless User.where(email: username).exists?

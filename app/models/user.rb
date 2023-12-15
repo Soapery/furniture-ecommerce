@@ -46,7 +46,7 @@ class User < ApplicationRecord
 
   before_validation :create_on_stripe, on: :create
   def create_on_stripe
-    params = { email:, name: full_ }
+    params = { email:, name: full_name }
     response = Stripe::Customer.create(params)
     self.stripe_id = response.id
   end

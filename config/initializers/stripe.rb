@@ -1,1 +1,3 @@
+require "stripe"
+
 Stripe.api_key = "sk_test_51ONNOUBgRII1WvEADJXEI817H0FyPTKP1kSv9DNb4NNiG2e7YChpYJcuNVnZjjnoZEwEA63CzWDPY1xsk2qYY5ph00qRlllyKp"

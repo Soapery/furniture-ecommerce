@@ -6,7 +6,7 @@ class Payment < ApplicationRecord
 
   def create_on_stripe
     token = get_token
-    params = { amount: order.amount_cents, currency: "cad", source: token }
+    params = { amount: (order.total_cost * 100).round, currency: "cad", source: token }
     response = Stripe::Charge.create(params)
     self.stripe_id = response.id
   end

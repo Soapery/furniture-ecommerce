@@ -25,14 +25,15 @@ Rails.application.routes.draw do
 
   # Product routes
   resources :products, only: %i[show edit update new create destroy] do
-    get 'variations/:variation', to: 'products#index', on: :collection, as: :variation
-    get 'search', on: :collection # Define the search route within the products resource
+    get "variations/:variation", to: "products#index", on: :collection, as: :variation
+    get "search", on: :collection # Define the search route within the products resource
   end
-  get '/search', to: 'products#search'
+  get "/search", to: "products#search"
 
   # Cart routes
   post "/add_to_cart/:id", to: "cart#add_to_cart", as: "add_to_cart"
-  patch "/update_product_quantity/:id", to: "cart#update_product_quantity", as: "update_product_quantity"
+  patch "/update_product_quantity/:id", to: "cart#update_product_quantity",
+                                        as: "update_product_quantity"
   get "/remove_product/:id", to: "cart#remove_product", as: "remove_product"
   get "/cart", to: "cart#show", as: "cart"
 
@@ -46,5 +47,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # Other routes for your application
+  resources :users do
+    resources :orders, only: %i[index show admin_index admin_show]
+  end
 end

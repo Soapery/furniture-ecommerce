@@ -45,6 +45,7 @@
               <% end %>
             </li>
         <% end %>
+        <li><%= render 'partials/variations' %></li>
       </ul>
       <%= button_to "Log out", destroy_user_session_path, method: 'delete', class: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
     </div>
@@ -66,6 +67,7 @@
         </li>
           <li> <%= link_to 'Contact', contact_path, class: 'text-white hover:text-gray-300' %>
         </li>
+        <li><%= render 'partials/variations' %></li>
       </ul>
       <div>
         <%= link_to 'Sign Up', new_user_registration_path, class: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2' %>

@@ -1,0 +1,24 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+  <h1 class="text-2xl font-bold mb-4">Edit Tax Rates for <%= @province.name %></h1>
+
+  <%= form_with(model: @province, url: tax_rate_path(@province), method: :patch) do |form| %>
+    <div class="mb-4">
+      <%= form.label :gst, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.text_field :gst, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :pst, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.text_field :pst, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :hst, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.text_field :hst, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+    </div>
+
+    <div class="text-center">
+      <%= form.submit "Update Tax Rates", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300" %>
+    </div>
+  <% end %>
+</div>

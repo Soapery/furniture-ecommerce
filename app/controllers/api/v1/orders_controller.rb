@@ -4,32 +4,49 @@ module Api
       def create
         return unless check_shipping_info(current_user)
 
-        current_user.province
+        @order = Order.new(order_params.merge(
+                             base_cost: @subtotal, total_cost: @total,
+                             order_status: "New", payment_method: "Credit Card"
+                           ))
 
-        @order = Order.new(order_params.merge(amount_cents:   rand(1000..10_000),
-                                              payment_method: "credit_card"))
         if @order.save
+          @cart_products.each do |item|
+            product = item[:product]
+            quantity = item[:quantity]
+            @order.order_products.create!(
+              amount:     quantity,
+              base_cost:  product.price,
+              gst:        @province.gst,
+              pst:        @province.pst,
+              hst:        @province.hst,
+              total_cost: product.price * (pst.to_f + gst.to_f + hst.to_f + 1),
+              order_id:   @order.id,
+              product_id: product.id
+            )
+          end
+
           render json: { order: @order, payment: @order.payment }, status: :created
         else
-          render json: @response.errors, status: :unprocessable_entity
+          render json: { errors: @order.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
       def checkout
         @user = User.find(current_user.id)
+        Rails.logger.debug(current_user.inspect)
+        @province = Province.find(current_user.province_id)
+
         @cart_products = session[:cart].map do |product_id, quantity|
           product = Product.find(product_id)
           { product:, quantity: }
         end
 
-        @province = current_user.province
-        Rails.logger.debug(@province)
         @subtotal = calculate_subtotal(@cart_products)
         @total = calculate_total(@subtotal, @province.gst,
                                  @province.pst, @province.hst)
         session[:order_total] = @total
 
-        render "checkout/checkout"
+        render "checkout/show"
       end
 
       def confirm_order
@@ -62,7 +79,9 @@ module Api
       end
 
       def check_shipping_info(user)
-        return true unless user.postal_code.blank? || current_user.address.blank? || province.blank?
+        unless user.postal_code.blank? || current_user.address.blank? || current_user.province_id.blank?
+          return true
+        end
 
         flash[:alert] = "Please provide shipping address information to confirm the order."
         redirect_to checkout_checkout_path
@@ -70,8 +89,7 @@ module Api
       end
 
       def order_params
-        params.require(:data).permit(:user_id, :base_cost, :credit_card_number, :credit_card_exp_month,
-                                     :credit_card_exp_year, :credit_card_cvv)
+        params.require(:order).permit(:credit_card_number, :credit_card_exp, :credit_card_cvv)
       end
     end
   end

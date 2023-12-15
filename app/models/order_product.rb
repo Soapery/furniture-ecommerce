@@ -1,6 +1,6 @@
 class OrderProduct < ApplicationRecord
-  belongs_to :orders
-  belongs_to :products
+  belongs_to :order
+  belongs_to :product
 
   validates :amount, presence: true, numericality: true
   validates :base_cost, presence: true, numericality: true

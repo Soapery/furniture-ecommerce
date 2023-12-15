@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
-  has_many :orders, through: :order_product
+  has_many :order_products
+  has_many :orders, through: :order_products
   has_many :product_variations
   has_many :product_patterns
 

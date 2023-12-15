@@ -4,28 +4,36 @@ module Api
       def create
         return unless check_shipping_info(current_user)
 
-        @order = Order.new(order_params.merge(
-                             base_cost: @subtotal, total_cost: @total,
-                             order_status: "New", payment_method: "Credit Card"
-                           ))
+        @user = User.find(order_params[:user_id])
+        @province = Province.find(@user.province_id)
+        @order = Order.new(
+          user_id:        order_params[:user_id],
+          base_cost:      order_params[:base_cost],
+          total_cost:     order_params[:total_cost],
+          order_status:   "New",
+          payment_method: "Credit Card"
+        )
 
         if @order.save
-          @cart_products.each do |item|
-            product = item[:product]
-            quantity = item[:quantity]
-            @order.order_products.create!(
-              amount:     quantity,
-              base_cost:  product.price,
-              gst:        @province.gst,
-              pst:        @province.pst,
-              hst:        @province.hst,
-              total_cost: product.price * (pst.to_f + gst.to_f + hst.to_f + 1),
-              order_id:   @order.id,
-              product_id: product.id
-            )
+          puts @order.inspect
+          Order.transaction do
+            session[:cart].map do |product_id, quantity|
+              product = Product.find(product_id)
+              order_product = OrderProduct.new(
+                order:      @order,
+                product:,
+                amount:     quantity,
+                base_cost:  product.price,
+                gst:        @province.gst,
+                pst:        @province.pst,
+                hst:        @province.hst,
+                total_cost: product.price * (@province.pst.to_f + @province.gst.to_f + @province.hst.to_f + 1)
+              )
+              order_product.save
+            end
+            render json: { order: @order, payment: @order.payment }, status: :created
           end
 
-          render json: { order: @order, payment: @order.payment }, status: :created
         else
           render json: { errors: @order.errors.full_messages }, status: :unprocessable_entity
         end
@@ -49,27 +57,6 @@ module Api
         render "checkout/show"
       end
 
-      def confirm_order
-        return unless check_shipping_info(current_user)
-
-        Order.create!(
-          user_id: current_user.id,
-          status:  "In Progress",
-          total:   session[:order_total]
-        )
-
-        session[:cart].each_key do |product_id|
-          Product.find(product_id)
-        end
-
-        session[:cart] = {}
-        session[:order_total] = nil
-
-        redirect_to order_confirmed_path, notice: "Order placed successfully!"
-      end
-
-      private
-
       def calculate_subtotal(cart_products)
         cart_products.sum { |item| item[:product].price * item[:quantity] }
       end
@@ -89,7 +76,8 @@ module Api
       end
 
       def order_params
-        params.require(:order).permit(:credit_card_number, :credit_card_exp, :credit_card_cvv)
+        params.permit(:user_id, :base_cost, :total_cost, :credit_card_number, :credit_card_exp,
+                      :credit_card_cvv, :authenticity_token, :commit)
       end
     end
   end

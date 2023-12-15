@@ -51,7 +51,6 @@ class User < ApplicationRecord
     self.stripe_id = response.id
   end
 
-
   def validate_username
     return unless User.where(email: username).exists?
 

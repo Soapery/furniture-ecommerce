@@ -15,7 +15,7 @@ module Api
         )
 
         if @order.save
-          puts @order.inspect
+          Rails.logger.debug @order.inspect
           Order.transaction do
             session[:cart].map do |product_id, quantity|
               product = Product.find(product_id)
@@ -62,9 +62,7 @@ module Api
         end
 
         def check_shipping_info(user)
-          unless user.postal_code.blank? || current_user.address.blank? || current_user.province_id.blank?
-            return true
-          end
+          return true unless user.postal_code.blank? || current_user.address.blank? || current_user.province_id.blank?
 
           flash[:alert] = "Please provide shipping address information to confirm the order."
           redirect_to checkout_checkout_path

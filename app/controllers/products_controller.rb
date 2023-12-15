@@ -1,14 +1,14 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: %i[show edit update destroy]
   before_action :set_variations
 
-
   def index
-    if params[:variation].present?
-      @products = Product.joins(:product_variations).where('product_variations.variation_name = ?', params[:variation]).order(:name)
-    else
-      @products = Product.order(:name)
-    end
+    @products = if params[:variation].present?
+                  Product.joins(:product_variations).where("product_variations.variation_name = ?",
+                                                           params[:variation]).order(:name)
+                else
+                  Product.order(:name)
+                end
   end
 
   def show
@@ -30,8 +30,8 @@ class ProductsController < ApplicationController
     if @product.update(product_params)
       # Associate each selected pattern with the updated product
       pattern_names.each do |pattern_name|
-        selected_pattern = ProductPattern.find_by(pattern_name: pattern_name)
-        @product.product_patterns.create(pattern_name: pattern_name) if selected_pattern
+        selected_pattern = ProductPattern.find_by(pattern_name:)
+        @product.product_patterns.create(pattern_name:) if selected_pattern
       end
 
       redirect_to @product, notice: "Product was successfully updated."
@@ -52,8 +52,8 @@ class ProductsController < ApplicationController
     if @product.save
       # Associate each selected pattern with the newly created product
       pattern_names.each do |pattern_name|
-        selected_pattern = ProductPattern.find_by(pattern_name: pattern_name)
-        @product.product_patterns.create(pattern_name: pattern_name) if selected_pattern
+        selected_pattern = ProductPattern.find_by(pattern_name:)
+        @product.product_patterns.create(pattern_name:) if selected_pattern
       end
 
       redirect_to @product, notice: "Product was successfully created."
@@ -68,22 +68,17 @@ class ProductsController < ApplicationController
   end
 
   def search
-
-    puts "Search Param: #{params[:search]}"
-    puts "Pattern Param: #{params[:pattern]}"
+    Rails.logger.debug "Search Param: #{params[:search]}"
+    Rails.logger.debug "Pattern Param: #{params[:pattern]}"
     @products = Product.includes(:product_patterns)
 
-    if params[:search].present?
-      @products = @products.where("name LIKE ?", "%#{params[:search]}%")
-    end
+    @products = @products.where("name LIKE ?", "%#{params[:search]}%") if params[:search].present?
 
-    if params[:pattern].present?
-      @products = @products.where(product_patterns: { pattern_name: params[:pattern] })
-    end
+    @products = @products.where(product_patterns: { pattern_name: params[:pattern] }) if params[:pattern].present?
 
     @products = @products.page(params[:page]).per(10)
 
-    render 'home/index'
+    render "home/index"
   end
 
   private

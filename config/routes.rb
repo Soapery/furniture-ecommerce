@@ -23,10 +23,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root to: "home#index"
 
-
-  resources :tax_rates, only: [:index, :edit, :update]
-
-
+  resources :tax_rates, only: %i[index edit update]
 
   # Product routes
   resources :products, only: %i[show edit update new create destroy] do

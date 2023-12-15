@@ -53,14 +53,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_035924) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
-  create_table "payments", force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.string "stripe_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_payments_on_order_id"
-  end
-
   create_table "product_patterns", force: :cascade do |t|
     t.integer "product_id", null: false
     t.text "pattern_name"
@@ -124,7 +116,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_035924) do
   add_foreign_key "order_products", "product_variations"
   add_foreign_key "order_products", "products"
   add_foreign_key "orders", "users"
-  add_foreign_key "payments", "orders"
   add_foreign_key "product_patterns", "products"
   add_foreign_key "product_variations", "products"
   add_foreign_key "users", "provinces"

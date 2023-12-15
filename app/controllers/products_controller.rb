@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    puts product_params.inspect
+    Rails.logger.debug product_params.inspect
     if @product.save
       redirect_to @product, notice: "Product was successfully created."
     else

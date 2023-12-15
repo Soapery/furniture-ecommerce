@@ -36,14 +36,12 @@ Rails.application.routes.draw do
   get "/remove_product/:id", to: "cart#remove_product", as: "remove_product"
   get "/cart", to: "cart#show", as: "cart"
 
-  get "/confirm_order", to: "checkout#confirm_order", as: "confirm_order_checkout"
-  get "/checkout", to: "checkout#checkout", as: "checkout_checkout"
-  get "/order_confirmed", to: "checkout#order_confirmed", as: "order_confirmed"
-  patch "/update_address", to: "checkout#update_address", as: "address_checkout"
-
   namespace :api do
     namespace :v1 do
       post :orders, to: "orders#create"
+      get "/confirm_order", to: "orders#confirm_order", as: "confirm_order"
+      get "/checkout", to: "orders#checkout", as: "checkout"
+      get "/order_confirmed", to: "checkout#order_confirmed", as: "order_confirmed"
     end
   end
 end

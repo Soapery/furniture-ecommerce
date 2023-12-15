@@ -20,7 +20,7 @@ ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='o
 
 # Retrieving CSV Data
 filename = Rails.root.join("db/housewares.csv")
-puts "Loading Products from the CSV file: #{filename}"
+Rails.logger.debug "Loading Products from the CSV file: #{filename}"
 
 # Province data
 provinces = [
@@ -105,7 +105,7 @@ provinces = [
 ]
 
 provinces.map do |province|
-  puts province
+  Rails.logger.debug province
   Province.create(
     name: province[:name],
     gst:  province[:gst],
@@ -127,16 +127,16 @@ CSV.foreach(filename, "r:BOM|UTF-8", headers: true) do |row|
     new_product.price = Faker::Commerce.price # Set the price only if the product is newly created
   end
 
-  puts product.inspect
-  puts product.errors.full_messages if product.errors.any?
+  Rails.logger.debug product.inspect
+  Rails.logger.debug product.errors.full_messages if product.errors.any?
 
   unless row["Variation"] == "NA"
     variation = product.product_variations.find_or_create_by(variation_name: row["Variation"])
-    puts variation.inspect
+    Rails.logger.debug variation.inspect
   end
 
   unless row["Pattern"] == "NA"
     pattern = product.product_patterns.find_or_create_by(pattern_name: row["Pattern"])
-    puts pattern.inspect
+    Rails.logger.debug pattern.inspect
   end
 end

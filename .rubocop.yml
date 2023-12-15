@@ -64,4 +64,4 @@ Rails/HasAndBelongsToMany:
   Enabled: false
 
 AllCops:
-    NewCops: enable
+    NewCops: disable

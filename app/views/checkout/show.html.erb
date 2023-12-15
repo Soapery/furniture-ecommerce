@@ -1,0 +1,62 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-4">Order Confirmation</h1>
+
+  <h2 class="text-2xl font-bold mb-2">Shipping Address</h2>
+  <%= form_for current_user.location || Location.new, url: address_checkout_path, method: :patch, data: { turbo: false } do |f| %>
+    <div class="mb-4 md:w-1/2">
+      <%= f.label :address, 'Address', class: "block font-semibold mb-1" %>
+      <%= f.text_field :address, value: current_user.location&.address, placeholder: 'Enter Address', class: "border border-gray-300 px-3 py-2 rounded focus:outline-none w-full" %>
+    </div>
+    <div class="mb-4 md:w-1/2">
+      <%= f.label :city, 'City', class: "block font-semibold mb-1" %>
+      <%= f.text_field :city, value: current_user.location&.city, placeholder: 'Enter City', class: "border border-gray-300 px-3 py-2 rounded focus:outline-none w-full" %>
+    </div>
+    <div class="mb-4 md:w-1/2">
+      <%= f.label :province, 'Province', class: "block font-semibold mb-1" %>
+      <%= f.text_field :province, value: current_user.location&.province, placeholder: 'Enter Province', class: "border border-gray-300 px-3 py-2 rounded focus:outline-none w-full" %>
+    </div>
+    <%= f.submit 'Save Address', class: "bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none" %>
+  <% end %>
+    <h2 class="text-2xl font-bold mt-8 mb-4">Order Details</h2>
+  <% if @cart_items.any? %>
+    <div class="overflow-x-auto">
+      <table class="border-collapse w-full mb-8">
+        <thead>
+          <tr>
+            <th class="border border-gray-400 px-4 py-2">Product</th>
+            <th class="border border-gray-400 px-4 py-2">Quantity</th>
+            <th class="border border-gray-400 px-4 py-2">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @cart_items.each do |item| %>
+            <tr class="border border-gray-400">
+              <td class="border border-gray-400 px-4 py-2"><%= item[:product].name %></td>
+              <td class="border border-gray-400 px-4 py-2"><%= item[:quantity] %></td>
+              <td class="border border-gray-400 px-4 py-2">$ <%= item[:product].price %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mb-8 md:flex md:justify-between md:items-center">
+      <div class="mb-2 md:mb-0">
+        <p class="mb-2">Subtotal: $ <%= number_to_currency(@subtotal) %></p>
+        <p class="mb-2">GST: $ <%= number_to_currency(@gst) %></p>
+        <p class="mb-2">PST: $ <%= number_to_currency(@pst) %></p>
+        <p class="mb-2">HST: $ <%= number_to_currency(@hst) %></p>
+        <p class="mb-2 font-bold">Total: $ <%= number_to_currency(@total) %></p>
+      </div>
+
+      <div>
+        <%= link_to "Confirm Order", confirm_order_checkout_path, class: "bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 focus:outline-none" %>
+        <% if flash[:alert] %>
+          <p class="text-red-500"><%= flash[:alert] %></p>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <p>Your cart is empty.</p>
+  <% end %>
+</div>

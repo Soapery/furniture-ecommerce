@@ -1,7 +1,7 @@
 class CartController < ApplicationController
   def add_to_cart
     product_id = params[:id]
-    product = Product.find(product_id)
+    Product.find(product_id)
 
     session[:cart] ||= {}
     session[:cart][product_id] ||= 0

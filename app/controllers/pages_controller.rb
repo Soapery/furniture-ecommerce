@@ -7,7 +7,5 @@ class PagesController < ApplicationController
     @contact_content = ContactContent.first_or_initialize
   end
 
-  def admin
-  end
+  def admin; end
 end
-

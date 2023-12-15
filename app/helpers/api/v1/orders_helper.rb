@@ -1,2 +1,6 @@
-module Api::V1::OrdersHelper
+module Api
+  module V1
+    module OrdersHelper
+    end
+  end
 end
